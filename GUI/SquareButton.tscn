@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://GUI/SquareButton.gd" type="Script" id=1]
+
+[node name="SquareButton" type="Button"]
+margin_right = 149.0
+margin_bottom = 146.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

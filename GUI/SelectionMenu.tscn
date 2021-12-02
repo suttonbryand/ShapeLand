@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://GUI/SelectionMenu.gd" type="Script" id=1]
+[ext_resource path="res://GUI/SquareButton.tscn" type="PackedScene" id=2]
+
+[node name="SelectionMenu" type="Control"]
+margin_left = 1.0
+margin_top = 541.0
+margin_right = 1278.0
+margin_bottom = 722.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectionPanel" type="Panel" parent="."]
+margin_right = 1279.0
+margin_bottom = 180.0
+
+[node name="SquareButton" parent="SelectionPanel" instance=ExtResource( 2 )]
+margin_left = 13.0
+margin_top = 8.0
+margin_right = 169.0
+margin_bottom = 166.0

@@ -6,6 +6,8 @@ var current_dots = 0
 var rides = []
 var activities = []
 
+var placing_ride : Ride
+
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -39,6 +41,25 @@ func create_dot():
 	dot.position = $DotStart.position
 	current_dots += 1
 
+func _process(delta):
+	
+	if(placing_ride != null):
+		placing_ride.global_position.x = get_global_mouse_position().x
+		placing_ride.global_position.y = get_global_mouse_position().y
+		
+	if(Input.is_action_just_pressed("lm_click") && placing_ride != null):
+		rides.append(placing_ride)
+		placing_ride = null
+		
 func _on_DotSpawnTimer_timeout():
 	if(current_dots < dot_limit):
 		create_dot()
+
+
+func _on_SquareButton_pressed():
+	if(placing_ride == null):
+		placing_ride = load("res://Rides/Square.tscn").instance() as Square
+		add_child(placing_ride)
+	else:
+		placing_ride.queue_free()
+		placing_ride = null
