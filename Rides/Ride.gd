@@ -2,6 +2,7 @@ extends Node2D
 class_name Ride
 
 export var is_activity = false
+export var capacity = 2
 var popularity = 0
 
 var riding = []
@@ -26,21 +27,22 @@ func addToQueue(dot):
 	queue.push_front(dot)
 	
 func startRiding():
-	pass
-	#for i in 6:
-	#	var dot : Dot = queue.pop_back()
-	#	dot.visible = false
-	#	riding.append(queue.pop_back())
+	if(queue.size() >= 1):
+		for i in queue.size():
+			if(i == capacity):
+				break
+			var dot = queue.pop_back()
+			dot.hide()
+			riding.append(dot)
 		
 func releaseRiders():
-	pass
-	#for i in riding.size():
-	#	var dot : Dot = riding.pop_back()
-	#	dot.visible = true
-	#	dot.releaseFromRide($exitPosition.global_position)
+	print("riding_size: " + str(riding.size()))
+	while (riding.size() > 0):
+		var dot = riding.pop_back()
+		dot.releaseFromRide($exitPosition.global_position)
+		dot.show()
 
 
 func _on_ServiceRateTimer_timeout():
-	#releaseRiders()
-	#startRiding()
-	pass
+	releaseRiders()
+	startRiding()

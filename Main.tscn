@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://MainCamera.gd" type="Script" id=2]
 [ext_resource path="res://GUI/SquareButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GUI/CircleButton.gd" type="Script" id=4]
+[ext_resource path="res://GUI/GiftShopButton.gd" type="Script" id=5]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -22,14 +24,44 @@ position = Vector2( 643, 360 )
 current = true
 script = ExtResource( 2 )
 
-[node name="SquareButton" parent="MainCamera" instance=ExtResource( 3 )]
-margin_left = -643.0
-margin_top = -360.0
-margin_right = -494.0
-margin_bottom = -214.0
+[node name="ButtonSelection" type="Control" parent="MainCamera"]
+margin_left = -645.0
+margin_top = -363.0
+margin_right = -481.0
+margin_bottom = 355.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Position2D" type="Position2D" parent="MainCamera/SquareButton"]
-position = Vector2( 74, 72 )
+[node name="SquareButton" parent="MainCamera/ButtonSelection" instance=ExtResource( 3 )]
+margin_left = 2.0
+margin_top = 3.0
+margin_right = 148.0
+margin_bottom = 149.0
+
+[node name="CircleButton" parent="MainCamera/ButtonSelection" instance=ExtResource( 3 )]
+margin_left = 2.0
+margin_top = 157.0
+margin_right = 148.0
+margin_bottom = 303.0
+script = ExtResource( 4 )
+
+[node name="GiftShopButton" parent="MainCamera/ButtonSelection" instance=ExtResource( 3 )]
+margin_left = 2.0
+margin_top = 575.0
+margin_right = 148.0
+margin_bottom = 721.0
+script = ExtResource( 5 )
 
 [connection signal="timeout" from="DotSpawnTimer" to="." method="_on_DotSpawnTimer_timeout"]
-[connection signal="pressed" from="MainCamera/SquareButton" to="." method="_on_SquareButton_pressed"]
+[connection signal="mouse_entered" from="MainCamera/ButtonSelection" to="." method="_on_ButtonSelection_mouse_entered"]
+[connection signal="mouse_exited" from="MainCamera/ButtonSelection" to="." method="_on_ButtonSelection_mouse_exited"]
+[connection signal="mouse_entered" from="MainCamera/ButtonSelection/SquareButton" to="." method="_on_SquareButton_mouse_entered"]
+[connection signal="mouse_exited" from="MainCamera/ButtonSelection/SquareButton" to="." method="_on_SquareButton_mouse_exited"]
+[connection signal="pressed" from="MainCamera/ButtonSelection/SquareButton" to="." method="_on_SquareButton_pressed"]
+[connection signal="mouse_entered" from="MainCamera/ButtonSelection/CircleButton" to="." method="_on_CircleButton_mouse_entered"]
+[connection signal="mouse_exited" from="MainCamera/ButtonSelection/CircleButton" to="." method="_on_CircleButton_mouse_exited"]
+[connection signal="pressed" from="MainCamera/ButtonSelection/CircleButton" to="." method="_on_CircleButton_pressed"]
+[connection signal="mouse_entered" from="MainCamera/ButtonSelection/GiftShopButton" to="." method="_on_GiftShopButton_mouse_entered"]
+[connection signal="mouse_exited" from="MainCamera/ButtonSelection/GiftShopButton" to="." method="_on_GiftShopButton_mouse_exited"]
+[connection signal="pressed" from="MainCamera/ButtonSelection/GiftShopButton" to="." method="_on_GiftShopButton_pressed"]

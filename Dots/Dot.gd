@@ -1,7 +1,7 @@
 extends Node2D
 class_name Dot
 
-enum States {ENTERING_PARK, CHOOSING_RIDE, MOVING_TO_RIDE, GOING_TO_HUB}
+enum States {ENTERING_PARK, CHOOSING_RIDE, MOVING_TO_RIDE, GOING_TO_HUB, IN_QUEUE}
 var state = States.ENTERING_PARK
 var destination_attraction : Ride
 
@@ -56,9 +56,9 @@ func _process(delta):
 					var ride_selected = rng.randi_range(0,rides_weighted.size() - 1)
 					var ride_index_selected = rides_weighted[ride_selected]
 					destination_attraction = rides[ride_index_selected]
-					print("Dot wants to ride " + str(ride_index_selected))
+					#print("Dot wants to ride " + str(ride_index_selected))
 				else:
-					print("Dot wants to do activity")
+					#print("Dot wants to do activity")
 					rng.randomize()
 					var chosen_index = rng.randi_range(0,activities.size() - 1)
 					destination_attraction = activities[chosen_index]
@@ -67,8 +67,8 @@ func _process(delta):
 			var ride_enter = destination_attraction.get_node("entrancePosition").global_position
 			position = position.move_toward(ride_enter, delta * 100)
 			if(position.x == ride_enter.x && position.y == ride_enter.y):
-				#destination_attraction.addToQueue(self)
-				pass
+				destination_attraction.addToQueue(self)
+				state = States.IN_QUEUE
 		States.GOING_TO_HUB:
 			var park_enter_position = self.get_parent().get_node("ParkEntered").global_position
 			if(position.x == park_enter_position.x && position.y == park_enter_position.y):
