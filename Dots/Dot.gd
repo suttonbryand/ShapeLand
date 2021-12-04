@@ -1,8 +1,8 @@
 extends Node2D
 class_name Dot
 
-enum States {ENTERING_PARK, CHOOSING_RIDE, MOVING_TO_RIDE, GOING_TO_HUB, IN_QUEUE}
-var state = States.ENTERING_PARK
+enum States {PAUSED, ENTERING_PARK, CHOOSING_RIDE, MOVING_TO_RIDE, GOING_TO_HUB, IN_QUEUE}
+var state = States.PAUSED
 var destination_attraction : Ride
 var main_parent
 var color : String = "FFFFFF"
@@ -86,6 +86,9 @@ func releaseFromRide(release_position):
 	state = States.GOING_TO_HUB
 	
 func _draw():
+	draw_dot()
+	
+func draw_dot():
 	draw_circle(Vector2(0,0), 10, Color(color))
 	
 func color_word():

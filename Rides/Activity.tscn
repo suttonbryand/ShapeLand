@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Rides/Ride.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Rides/Activity.gd" type="Script" id=2]
+[ext_resource path="res://Rides/QueuePathFollow.gd" type="Script" id=3]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 192, 192, 0, 0, 0, 0, 192, 64, 0, 0, 0, 0, 64, 64, 0, 0, 0, 0, 64, 192 )
+}
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[node name="Activity" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="ExitPosition" parent="." index="4"]
+position = Vector2( 128, 192 )
+
+[node name="EntrancePosition" parent="." index="5"]
+position = Vector2( 192, 192 )
+
+[node name="QueuePath_small" type="Path2D" parent="." index="6"]
+curve = SubResource( 1 )
+
+[node name="QueuePathFollow" type="PathFollow2D" parent="QueuePath_small" index="0"]
+position = Vector2( 192, 192 )
+rotation = -1.5708
+script = ExtResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="QueuePath_small" index="1"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="QueuePath_small/Area2D" index="0"]
+position = Vector2( 64, 192 )
+shape = SubResource( 2 )

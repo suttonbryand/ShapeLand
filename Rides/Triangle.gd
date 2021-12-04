@@ -1,5 +1,6 @@
-extends Dot
-class_name ActivityFan
+extends Ride
+class_name Triangle
+
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -8,8 +9,7 @@ class_name ActivityFan
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("Activity Fan")
-	ride_preference_weight = 25
+	popularity = 45
 	pass # Replace with function body.
 
 
@@ -18,16 +18,15 @@ func _ready():
 #	pass
 
 func _draw():
-	draw_circle(Vector2(4,4),4,Color("b0b0b0"))
-	draw_circle(Vector2(4,4),2,Color("FFFFFF"))
-	
 	var vector_array : PoolVector2Array = PoolVector2Array()
-	vector_array.append(Vector2(-4,8))
-	vector_array.append(Vector2(12,0))
-	vector_array.append(Vector2(16,8))
-	vector_array.append(Vector2(0,16))
+	vector_array.append(Vector2(128,0))
+	vector_array.append(Vector2(256,256))
+	vector_array.append(Vector2(0,256))
 	
 	var color_array : PoolColorArray = PoolColorArray()
-	color_array.append(Color("b0b0b0"))
+	color_array.append(Color("FFFFFF"))
 	
 	draw_polygon(vector_array,color_array)
+	
+func get_class():
+	return "Triangle"

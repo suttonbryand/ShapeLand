@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://MainCamera.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://GUI/GiftShopButton.gd" type="Script" id=5]
 [ext_resource path="res://Clock.gd" type="Script" id=6]
 [ext_resource path="res://DotSpawnTimer.gd" type="Script" id=7]
+[ext_resource path="res://GUI/TriangleButton.gd" type="Script" id=8]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -37,40 +38,51 @@ __meta__ = {
 }
 
 [node name="SquareButton" parent="MainCamera/ButtonSelection" instance=ExtResource( 3 )]
-margin_left = 2.0
-margin_top = 3.0
-margin_right = 148.0
-margin_bottom = 149.0
+margin_left = 10.0
+margin_top = 67.0
+margin_right = 74.0
+margin_bottom = 131.0
 
 [node name="CircleButton" parent="MainCamera/ButtonSelection" instance=ExtResource( 3 )]
-margin_left = 2.0
-margin_top = 157.0
-margin_right = 148.0
-margin_bottom = 303.0
+margin_left = 90.0
+margin_top = 67.0
+margin_right = 154.0
+margin_bottom = 131.0
 script = ExtResource( 4 )
 
 [node name="GiftShopButton" parent="MainCamera/ButtonSelection" instance=ExtResource( 3 )]
 margin_left = 2.0
-margin_top = 575.0
-margin_right = 148.0
-margin_bottom = 721.0
+margin_top = 579.0
+margin_right = 66.0
+margin_bottom = 647.0
 script = ExtResource( 5 )
 
+[node name="TriangleButton" type="Button" parent="MainCamera/ButtonSelection"]
+margin_left = 10.0
+margin_top = 147.0
+margin_right = 74.0
+margin_bottom = 211.0
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="TimeSection" type="Control" parent="MainCamera"]
-margin_left = -643.0
-margin_top = -360.0
-margin_right = -603.0
-margin_bottom = -320.0
+margin_left = -451.0
+margin_top = -400.0
+margin_right = -411.0
+margin_bottom = -360.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ClockControl" type="Control" parent="MainCamera/TimeSection"]
-margin_left = 766.0
-margin_top = 2.0
-margin_right = 1286.0
-margin_bottom = 181.0
+margin_left = 560.0
+margin_top = 48.0
+margin_right = 1080.0
+margin_bottom = 227.0
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
@@ -114,5 +126,8 @@ __meta__ = {
 [connection signal="mouse_entered" from="MainCamera/ButtonSelection/GiftShopButton" to="." method="_on_GiftShopButton_mouse_entered"]
 [connection signal="mouse_exited" from="MainCamera/ButtonSelection/GiftShopButton" to="." method="_on_GiftShopButton_mouse_exited"]
 [connection signal="pressed" from="MainCamera/ButtonSelection/GiftShopButton" to="." method="_on_GiftShopButton_pressed"]
+[connection signal="mouse_entered" from="MainCamera/ButtonSelection/TriangleButton" to="." method="_on_TriangleButton_mouse_entered"]
+[connection signal="mouse_exited" from="MainCamera/ButtonSelection/TriangleButton" to="." method="_on_TriangleButton_mouse_exited"]
+[connection signal="pressed" from="MainCamera/ButtonSelection/TriangleButton" to="." method="_on_TriangleButton_pressed"]
 [connection signal="pressed" from="MainCamera/TimeSection/ClockControl/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="MainCamera/TimeSection/ClockControl/FFButton" to="." method="_on_FFButton_pressed"]

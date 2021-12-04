@@ -17,7 +17,7 @@ func _ready():
 #	pass
 
 func _draw():
-	var rect = Rect2(0,0,100,100)
+	var rect = Rect2(32,32,192,192)
 	draw_rect(rect, Color("#FFFFFF"))
 	
 func get_class():

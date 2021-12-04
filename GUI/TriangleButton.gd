@@ -16,7 +16,12 @@ func _ready():
 #	pass
 
 func _draw():
-	draw_circle(Vector2(32,32), 22, Color("#FFFFFF"))
+	var vector_array : PoolVector2Array = PoolVector2Array()
+	vector_array.append(Vector2(32,10))
+	vector_array.append(Vector2(54,54))
+	vector_array.append(Vector2(10,54))
 	
-	#var rect = Rect2(25,25,100,100)
-	#draw_rect(rect, Color("#FFFFFF"))
+	var color_array : PoolColorArray = PoolColorArray()
+	color_array.append(Color("FFFFFF"))
+	
+	draw_polygon(vector_array,color_array)

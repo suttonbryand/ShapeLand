@@ -16,3 +16,16 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func _draw():
+	#.draw_dot()
+	
+	var vector_array : PoolVector2Array = PoolVector2Array()
+	vector_array.append(Vector2(19,-20))
+	vector_array.append(Vector2(10,0))
+	vector_array.append(Vector2(-2,-10))
+	
+	var color_array : PoolColorArray = PoolColorArray()
+	color_array.append(Color("b0b0b0"))
+	
+	draw_polygon(vector_array,color_array)

@@ -2,7 +2,7 @@ extends PathFollow2D
 class_name QueuePathFollow
 
 var start_following : bool = false
-var total_length = 128 * 3
+var total_length = 766
 var distance_traveled = 0
 var current_queue_size = 0
 

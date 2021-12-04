@@ -17,7 +17,7 @@ func _ready():
 #	pass
 
 func _draw():
-	draw_circle(Vector2(0,0), 100, Color("#FFFFFF"))
+	draw_circle(Vector2(128,128), 100, Color("#FFFFFF"))
 	
 func get_class():
 	return "Circle"

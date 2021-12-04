@@ -97,6 +97,9 @@ func _on_SquareButton_pressed():
 func _on_CircleButton_pressed():
 	ride_button_press("res://Rides/Circle.tscn")
 	
+func _on_TriangleButton_pressed():
+	ride_button_press("res://Rides/Triangle.tscn")
+	
 func _on_GiftShopButton_pressed():
 	activity_button_press("res://Rides/GiftShop.tscn")
 	
@@ -119,7 +122,11 @@ func _on_GiftShopButton_mouse_entered():
 	self._on_ButtonSelection_mouse_entered()
 func _on_GiftShopButton_mouse_exited():
 	self._on_ButtonSelection_mouse_exited()
-
+func _on_TriangleButton_mouse_entered():
+	self._on_ButtonSelection_mouse_entered()
+func _on_TriangleButton_mouse_exited():
+	self._on_ButtonSelection_mouse_exited()
+	
 func _on_ClockTimer_timeout():
 	#time += 1 * time_multiplier
 	pass
@@ -147,3 +154,4 @@ func updateTimers():
 	for a in GlobalSettings.activities:
 		a.get_node("ServiceRateTimer").update_wait_time()
 	
+

@@ -16,3 +16,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func _draw():
+	draw_circle(Vector2(4,-12),8,Color("b0b0b0"))
+	draw_line(Vector2(9,-4),Vector2(-14,-14),Color("b0b0b0"),6)
+	draw_line(Vector2(0,4),Vector2(-24,0),Color("b0b0b0"),2)
+	draw_line(Vector2(-28,4),Vector2(-20,-4),Color("b0b0b0"),6)
+	draw_line(Vector2(-27,3),Vector2(-21,-3),Color("858585"),4)

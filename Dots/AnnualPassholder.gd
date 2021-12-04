@@ -16,3 +16,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+
+func _draw():
+	draw_circle(Vector2(-4,4),4,Color("b0b0b0"))

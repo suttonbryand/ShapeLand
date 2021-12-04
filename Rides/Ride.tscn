@@ -7,10 +7,11 @@
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 128, 128, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128 )
+"points": PoolVector2Array( 0, 0, 0, 0, 256, 256, 0, 0, 0, 0, 256, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 256, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 256 )
 }
 
 [sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 13, 13 )
 
 [node name="Ride" type="Node2D"]
 script = ExtResource( 1 )
@@ -19,16 +20,22 @@ script = ExtResource( 1 )
 curve = SubResource( 1 )
 
 [node name="QueuePathFollow" type="PathFollow2D" parent="QueuePath"]
-position = Vector2( 128, 128 )
+position = Vector2( 256, 256 )
 rotation = -1.5708
 loop = false
 script = ExtResource( 5 )
 
 [node name="Area2D" type="Area2D" parent="QueuePath"]
-position = Vector2( 0, 128 )
+position = Vector2( 0, 256 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="QueuePath/Area2D"]
 shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="ServiceRateTimer" type="Timer" parent="."]
 wait_time = 10.0
@@ -44,10 +51,10 @@ autostart = true
 script = ExtResource( 3 )
 
 [node name="ExitPosition" type="Position2D" parent="."]
-position = Vector2( 64, 128 )
+position = Vector2( 128, 256 )
 
 [node name="EntrancePosition" type="Position2D" parent="."]
-position = Vector2( 128, 128 )
+position = Vector2( 256, 256 )
 
 [connection signal="timeout" from="ServiceRateTimer" to="." method="_on_ServiceRateTimer_timeout"]
 [connection signal="timeout" from="ReleaseQueueTimer" to="." method="_on_ReleaseQueueTimer_timeout"]

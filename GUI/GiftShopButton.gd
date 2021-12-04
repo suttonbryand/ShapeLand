@@ -14,7 +14,16 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
+	
 func _draw():
-	var rect = Rect2(0,0,50,50)
+	var rect = Rect2(10,10,44,44)
 	draw_rect(rect, Color("#FFFFFF"))
+	
+	var roof_bottom = Rect2(8,10,48,12)
+	draw_rect(roof_bottom, Color("#FFFFFF"))
+	
+	draw_circle(Vector2(32,32),10,Color("000000"))
+	draw_circle(Vector2(32,32),8,Color("FFFFFF"))
+	
+	var gbrect = Rect2(16,30,32,18)
+	draw_rect(gbrect, Color("#000000"))

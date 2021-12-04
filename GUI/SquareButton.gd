@@ -15,8 +15,6 @@ func _ready():
 #func _process(delta):
 #	pass
 
-
 func _draw():
-	var rect = Rect2(25,25,100,100)
+	var rect = Rect2(10,10,44,44)
 	draw_rect(rect, Color("#FFFFFF"))
-	
