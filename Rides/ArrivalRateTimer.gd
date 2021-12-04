@@ -1,0 +1,2 @@
+extends AbstractTimer
+class_name ArrivalRateTimer

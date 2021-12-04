@@ -1,11 +1,9 @@
 extends Node2D
 
-export var dot_limit = 10
+export var dot_limit = 100
 var current_dots = 0
 
 enum ride_types {RIDE, ACTIVITY}
-var rides = []
-var activities = []
 
 var placing_ride : Ride
 var placing_ride_type
@@ -19,7 +17,7 @@ var in_button_selection = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	GlobalSettings.parkEnteredPosition = $ParkEntered
 	
 
 
@@ -29,18 +27,27 @@ func _ready():
 
 func create_dot():
 	var archetypes = [
-		RideEnthusiast, 
-		RideFan, 
-		AverageTourist, 
-		ActivityFan, 
-		AnnualPassholder,
-		EntitledAnnualPassholder,
-		Vlogger ]
+		"RideEnthusiast", 
+		"RideFan", 
+		"AverageTourist", 
+		"ActivityFan", 
+		"AnnualPassholder",
+		"EntitledAnnualPassholder",
+		"Vlogger" ]
 
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	var arch_index = rng.randi_range(0,6)
-	var dot : Dot = archetypes[arch_index].new()
+	var dot = load("res://Dots/" + archetypes[arch_index] + ".tscn").instance()
+	match current_dots:
+		0:
+			dot.color = "FF0000"
+		1:
+			dot.color = "00FF00"
+		2:
+			dot.color = "0000FF"	
+		_:
+			dot.color = "FFFFFF"
 	add_child(dot)
 	dot.position = $DotStart.position
 	current_dots += 1
@@ -52,16 +59,19 @@ func _process(delta):
 		placing_ride.global_position.y = get_global_mouse_position().y
 		
 	if(Input.is_action_just_pressed("lm_click") && !in_button_selection && placing_ride != null):
-		print("Consumed at process")
+		#print("Consumed at process")
 		match(placing_ride_type):
 			ride_types.RIDE:
-				rides.append(placing_ride)
+				GlobalSettings.rides.append(placing_ride)
 			ride_types.ACTIVITY:
-				activities.append(placing_ride)
+				GlobalSettings.activities.append(placing_ride)
 		placing_ride = null
+		
+	GlobalSettings.time += delta * GlobalSettings.time_multiplier
 		
 		
 func _on_DotSpawnTimer_timeout():
+	#print("dot spawner")
 	if(current_dots < dot_limit):
 		create_dot()
 
@@ -109,3 +119,31 @@ func _on_GiftShopButton_mouse_entered():
 	self._on_ButtonSelection_mouse_entered()
 func _on_GiftShopButton_mouse_exited():
 	self._on_ButtonSelection_mouse_exited()
+
+func _on_ClockTimer_timeout():
+	#time += 1 * time_multiplier
+	pass
+
+
+func _on_PauseButton_pressed():
+	if(GlobalSettings.time_multiplier == 0):
+		GlobalSettings.time_multiplier = 1
+	else:
+		GlobalSettings.time_multiplier = 0
+	updateTimers()
+
+
+func _on_FFButton_pressed():
+	if(GlobalSettings.time_multiplier == 0 || GlobalSettings.time_multiplier == 8):
+		GlobalSettings.time_multiplier = 1
+	else:
+		GlobalSettings.time_multiplier *= 2
+	updateTimers()
+		
+func updateTimers():
+	$DotSpawnTimer.update_wait_time()
+	for r in GlobalSettings.rides:
+		r.get_node("ServiceRateTimer").update_wait_time()
+	for a in GlobalSettings.activities:
+		a.get_node("ServiceRateTimer").update_wait_time()
+	

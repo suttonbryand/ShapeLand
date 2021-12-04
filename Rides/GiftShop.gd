@@ -1,4 +1,4 @@
-extends Ride
+extends Activity
 class_name GiftShop
 
 # Declare member variables here. Examples:
@@ -18,3 +18,6 @@ func _ready():
 func _draw():
 	var rect = Rect2(0,0,50,50)
 	draw_rect(rect, Color("#FFFFFF"))
+
+func get_class():
+	return "GiftShop"

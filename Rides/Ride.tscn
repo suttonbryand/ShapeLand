@@ -1,12 +1,54 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Rides/Ride.gd" type="Script" id=1]
+[ext_resource path="res://Rides/ServiceRateTimer.gd" type="Script" id=2]
+[ext_resource path="res://Rides/ArrivalRateTimer.gd" type="Script" id=3]
+[ext_resource path="res://Rides/QueuePathFollow.gd" type="Script" id=5]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 128, 128, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128 )
+}
+
+[sub_resource type="RectangleShape2D" id=2]
 
 [node name="Ride" type="Node2D"]
 script = ExtResource( 1 )
 
+[node name="QueuePath" type="Path2D" parent="."]
+curve = SubResource( 1 )
+
+[node name="QueuePathFollow" type="PathFollow2D" parent="QueuePath"]
+position = Vector2( 128, 128 )
+rotation = -1.5708
+loop = false
+script = ExtResource( 5 )
+
+[node name="Area2D" type="Area2D" parent="QueuePath"]
+position = Vector2( 0, 128 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="QueuePath/Area2D"]
+shape = SubResource( 2 )
+
 [node name="ServiceRateTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 10.0
+autostart = true
+script = ExtResource( 2 )
+
+[node name="ReleaseQueueTimer" type="Timer" parent="."]
 autostart = true
 
+[node name="ArrivalRateTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+script = ExtResource( 3 )
+
+[node name="ExitPosition" type="Position2D" parent="."]
+position = Vector2( 64, 128 )
+
+[node name="EntrancePosition" type="Position2D" parent="."]
+position = Vector2( 128, 128 )
+
 [connection signal="timeout" from="ServiceRateTimer" to="." method="_on_ServiceRateTimer_timeout"]
+[connection signal="timeout" from="ReleaseQueueTimer" to="." method="_on_ReleaseQueueTimer_timeout"]
+[connection signal="timeout" from="ArrivalRateTimer" to="." method="_on_ArrivalRateTimer_timeout"]

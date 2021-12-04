@@ -18,3 +18,6 @@ func _ready():
 
 func _draw():
 	draw_circle(Vector2(0,0), 100, Color("#FFFFFF"))
+	
+func get_class():
+	return "Circle"

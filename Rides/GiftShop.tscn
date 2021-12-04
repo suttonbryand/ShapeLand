@@ -6,9 +6,3 @@
 [node name="GiftShop" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 is_activity = true
-
-[node name="entrancePosition" type="Position2D" parent="." index="1"]
-position = Vector2( 0, 50 )
-
-[node name="exitPosition" type="Position2D" parent="." index="2"]
-position = Vector2( 50, 50 )

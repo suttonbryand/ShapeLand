@@ -7,6 +7,12 @@ var popularity = 0
 
 var riding = []
 var queue = []
+var release_queue = []
+
+var arrivals : int = 0
+var arrival_rate : float = 0.00
+
+
 
 
 # Declare member variables here. Examples:
@@ -21,28 +27,57 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
-#	pass
+#	popReleaseQueue()
 
 func addToQueue(dot):
-	queue.push_front(dot)
+	print("addToQueue: " + dot.color_word())
+	var queue_path_follow = QueuePathFollow.new()
+	queue_path_follow.current_queue_size = queue.size()
+	queue.push_back(dot)
+	$QueuePath.add_child(queue_path_follow)
+	dot.change_parent(queue_path_follow)
+	dot.global_position.x = $EntrancePosition.global_position.x
+	dot.global_position.y = $EntrancePosition.global_position.y
+	queue_path_follow.loop = false
+	queue_path_follow.start_following = true
+	arrivals += 1
 	
 func startRiding():
-	if(queue.size() >= 1):
-		for i in queue.size():
-			if(i == capacity):
-				break
-			var dot = queue.pop_back()
-			dot.hide()
-			riding.append(dot)
+	while(queue.size() > 0 && riding.size() < capacity):
+		var dot = queue.pop_front()
+		dot.hide()
+		riding.append(dot)
+		#$ServiceRateTimer.wait_time = 4096
+		
+	for waiter in queue:
+		waiter.move_in_line(riding.size())
 		
 func releaseRiders():
-	print("riding_size: " + str(riding.size()))
 	while (riding.size() > 0):
-		var dot = riding.pop_back()
-		dot.releaseFromRide($exitPosition.global_position)
-		dot.show()
+		release_queue.push_back(riding.pop_back())
+		
+func popReleaseQueue():
+		if(release_queue.size() > 0):
+			var dot = release_queue.pop_front()
+			dot.restore_main_parent()
+			dot.releaseFromRide($ExitPosition.global_position)
+			dot.show()
+		
+func getQueueTime():
+	return int((queue.size() / capacity) * $ServiceRateTimer.wait_time)
 
 
 func _on_ServiceRateTimer_timeout():
 	releaseRiders()
 	startRiding()
+
+
+func _on_ArrivalRateTimer_timeout():
+	if(arrivals > 0):
+		arrival_rate = arrivals / $ArrivalRateTimer.wait_time
+		#print("Arrival Rate for " + str(self.get_class()) + ": " + str(arrival_rate))
+		arrivals = 0
+
+
+func _on_ReleaseQueueTimer_timeout():
+	popReleaseQueue()

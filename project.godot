@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Timer",
+"class": "AbstractTimer",
+"language": "GDScript",
+"path": "res://AbstractTimer.gd"
+}, {
+"base": "Ride",
+"class": "Activity",
+"language": "GDScript",
+"path": "res://Rides/Activity.gd"
+}, {
 "base": "Dot",
 "class": "ActivityFan",
 "language": "GDScript",
@@ -18,6 +28,11 @@ _global_script_classes=[ {
 "class": "AnnualPassholder",
 "language": "GDScript",
 "path": "res://Dots/AnnualPassholder.gd"
+}, {
+"base": "AbstractTimer",
+"class": "ArrivalRateTimer",
+"language": "GDScript",
+"path": "res://Rides/ArrivalRateTimer.gd"
 }, {
 "base": "Dot",
 "class": "AverageTourist",
@@ -39,12 +54,17 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Dots/Dot.gd"
 }, {
+"base": "AbstractTimer",
+"class": "DotSpawnTimer",
+"language": "GDScript",
+"path": "res://DotSpawnTimer.gd"
+}, {
 "base": "Dot",
 "class": "EntitledAnnualPassholder",
 "language": "GDScript",
 "path": "res://Dots/EntitledAnnualPassholder.gd"
 }, {
-"base": "Ride",
+"base": "Activity",
 "class": "GiftShop",
 "language": "GDScript",
 "path": "res://Rides/GiftShop.gd"
@@ -58,6 +78,11 @@ _global_script_classes=[ {
 "class": "InvitationItem",
 "language": "GDScript",
 "path": "res://addons/github-integration/scripts/InvitationItem.gd"
+}, {
+"base": "PathFollow2D",
+"class": "QueuePathFollow",
+"language": "GDScript",
+"path": "res://Rides/QueuePathFollow.gd"
 }, {
 "base": "PanelContainer",
 "class": "RepositoryItem",
@@ -84,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GUI/SelectionMenu.gd"
 }, {
+"base": "AbstractTimer",
+"class": "ServiceRateTimer",
+"language": "GDScript",
+"path": "res://Rides/ServiceRateTimer.gd"
+}, {
 "base": "Ride",
 "class": "Square",
 "language": "GDScript",
@@ -95,21 +125,27 @@ _global_script_classes=[ {
 "path": "res://Dots/Vlogger.gd"
 } ]
 _global_script_class_icons={
+"AbstractTimer": "",
+"Activity": "",
 "ActivityFan": "",
 "AnnualPassholder": "",
+"ArrivalRateTimer": "",
 "AverageTourist": "",
 "Circle": "",
 "ContributorClass": "",
 "Dot": "",
+"DotSpawnTimer": "",
 "EntitledAnnualPassholder": "",
 "GiftShop": "",
 "GistItem": "",
 "InvitationItem": "",
+"QueuePathFollow": "",
 "RepositoryItem": "",
 "Ride": "",
 "RideEnthusiast": "",
 "RideFan": "",
 "SelectionMenu": "",
+"ServiceRateTimer": "",
 "Square": "",
 "Vlogger": ""
 }
@@ -126,6 +162,7 @@ PluginSettings="*res://addons/github-integration/scripts/PluginSettings.gd"
 IconLoaderGithub="*res://addons/github-integration/scripts/IconLoaderGithub.gd"
 UserData="*res://addons/github-integration/scripts/user_data.gd"
 RestHandler="*res://addons/github-integration/scenes/RestHandler.tscn"
+GlobalSettings="*res://GlobalSettings.gd"
 
 [display]
 
