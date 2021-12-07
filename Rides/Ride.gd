@@ -1,9 +1,10 @@
 extends Node2D
 class_name Ride
 
-export var is_activity = false
-export var capacity = 2
-var popularity = 0
+export var is_activity : bool = false
+export var capacity : int = 2
+export var cost : int = 50000
+var popularity : int = 0
 
 var riding = []
 var queue = []
@@ -19,18 +20,11 @@ var arrival_rate : float = 0.00
 # var a = 2
 # var b = "text"
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	popReleaseQueue()
 
 func addToQueue(dot):
-	print("addToQueue: " + dot.color_word())
 	var queue_path_follow = QueuePathFollow.new()
 	queue_path_follow.current_queue_size = queue.size()
 	queue.push_back(dot)
@@ -46,6 +40,7 @@ func startRiding():
 	while(queue.size() > 0 && riding.size() < capacity):
 		var dot = queue.pop_front()
 		dot.hide()
+		dot.state = dot.States.RIDING
 		riding.append(dot)
 		#$ServiceRateTimer.wait_time = 4096
 		
@@ -54,7 +49,9 @@ func startRiding():
 		
 func releaseRiders():
 	while (riding.size() > 0):
-		release_queue.push_back(riding.pop_back())
+		var dot = riding.pop_back()
+		dot.state = dot.States.LEAVING_RIDE
+		release_queue.push_back(dot)
 		
 func popReleaseQueue():
 		if(release_queue.size() > 0):
@@ -64,8 +61,28 @@ func popReleaseQueue():
 			dot.show()
 		
 func getQueueTime():
-	return int((queue.size() / capacity) * $ServiceRateTimer.wait_time)
+	return int((queue.size() / capacity) * ($ServiceRateTimer.wait_time * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index]))
 
+func openRide():
+	$ServiceRateTimer.start()
+	$ReleaseQueueTimer.start()
+
+func closeRide():
+	$ServiceRateTimer.stop()
+	$ReleaseQueueTimer.stop()
+	closeQueue()
+	while(release_queue.size() > 0):
+		popReleaseQueue()
+	releaseRiders()
+	while(release_queue.size() > 0):
+		popReleaseQueue()
+	
+func closeQueue():
+	while(queue.size() > 0):
+		var dot = queue.pop_front()
+		if(!GlobalSettings.park_open):
+			dot.restore_main_parent()
+			dot.state = dot.States.LEAVING_PARK
 
 func _on_ServiceRateTimer_timeout():
 	releaseRiders()

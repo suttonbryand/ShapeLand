@@ -1,15 +1,20 @@
 extends Node2D
 class_name Dot
 
-enum States {PAUSED, ENTERING_PARK, CHOOSING_RIDE, MOVING_TO_RIDE, GOING_TO_HUB, IN_QUEUE}
+enum States {PAUSED, ENTERING_PARK, CHOOSING_RIDE, MOVING_TO_RIDE, GOING_TO_HUB, IN_QUEUE, RIDING, LEAVING_RIDE, LEAVING_PARK}
 var state = States.PAUSED
 var destination_attraction : Ride
 var main_parent
 var color : String = "FFFFFF"
+var balking_point  : int = 180
 
 export var ride_preference_weight = 50
 
 func _ready():
+	
+	if(GlobalSettings.debug):
+		print("Spawning: " + get_class())
+	
 	move_to_park()
 	pass
 	
@@ -18,11 +23,13 @@ func _process(delta):
 	
 	match state:
 		States.ENTERING_PARK:
-			
-			if(position.y <= GlobalSettings.parkEnteredPosition.position.y):
-				state = States.CHOOSING_RIDE
+			if(!GlobalSettings.park_open):
+				state = States.LEAVING_PARK
 			else:
-				velocity.y -= GlobalSettings.dot_speed * GlobalSettings.time_multiplier
+				if(position.y <= GlobalSettings.parkEnteredPosition.position.y):
+					state = States.CHOOSING_RIDE
+				else:
+					velocity.y -= GlobalSettings.dot_speed * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index]
 			
 		States.CHOOSING_RIDE:
 			
@@ -67,17 +74,34 @@ func _process(delta):
 					destination_attraction = activities[chosen_index]
 				state = States.MOVING_TO_RIDE
 		States.MOVING_TO_RIDE:
-			var ride_enter = destination_attraction.get_node("EntrancePosition").global_position
-			position = position.move_toward(ride_enter, delta * 100 * GlobalSettings.time_multiplier)
-			if(position.x == ride_enter.x && position.y == ride_enter.y):
-				state = States.IN_QUEUE
-				destination_attraction.addToQueue(self)
+			if(!GlobalSettings.park_open):
+				state = States.LEAVING_PARK
+			else:
+				var ride_enter = destination_attraction.get_node("EntrancePosition").global_position
+				position = position.move_toward(ride_enter, delta * 100 * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index])
+				if(position.x == ride_enter.x && position.y == ride_enter.y):
+					if(destination_attraction.getQueueTime() >= balking_point):
+						if(GlobalSettings.debug):
+							print("BALK!")
+						state = States.GOING_TO_HUB
+					else:
+						state = States.IN_QUEUE
+						destination_attraction.addToQueue(self)
 		States.GOING_TO_HUB:
-			var park_enter_position = GlobalSettings.parkEnteredPosition.global_position
-			if(position.x == park_enter_position.x && position.y == park_enter_position.y):
-				state = States.CHOOSING_RIDE
-			position = position.move_toward(park_enter_position, delta * GlobalSettings.dot_speed * GlobalSettings.time_multiplier)
-		
+			if(!GlobalSettings.park_open):
+				state = States.LEAVING_PARK
+			else:
+				var park_enter_position = GlobalSettings.parkEnteredPosition.global_position
+				if(position.x == park_enter_position.x && position.y == park_enter_position.y):
+					state = States.CHOOSING_RIDE
+				position = position.move_toward(park_enter_position, delta * GlobalSettings.dot_speed * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index])
+		States.LEAVING_PARK:
+			var dot_spawn_position = GlobalSettings.dotSpawnedPosition.global_position
+			position = position.move_toward(dot_spawn_position, delta * GlobalSettings.dot_speed * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index])
+			if(position.x == dot_spawn_position.x  && position.y == dot_spawn_position.y):
+				get_parent().remove_child(self)
+				queue_free()
+				
 	position += velocity * delta
 
 func releaseFromRide(release_position):
@@ -123,5 +147,4 @@ func move_in_line(amount : int):
 		get_parent().move_in_line(amount)
 	
 func _on_Area2D_area_entered(area):
-	print("area entered")
 	area.get_parent().stop_following()

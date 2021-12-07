@@ -1,6 +1,8 @@
 extends Ride
 class_name Activity
 
+export var charge : int = 100
+
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -9,7 +11,9 @@ class_name Activity
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	capacity = 100
+	capacity = 10
+	$ServiceRateTimer.wait_time = 1
+	$ReleaseQueueTimer.wait_time = .1
 	
 	var old_qp = $QueuePath
 	remove_child(old_qp)
@@ -21,3 +25,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func addToQueue(dot):
+	GlobalSettings.money += charge
+	.addToQueue(dot)

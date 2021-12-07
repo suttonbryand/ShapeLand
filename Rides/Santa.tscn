@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Rides/Activity.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Rides/Santa.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 44, 24 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 26.5, 26.5 )
+
+[sub_resource type="CircleShape2D" id=3]
+
+[node name="Santa" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="." index="7"]
+position = Vector2( 128, 128 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2( 0, 32 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D" index="1"]
+position = Vector2( 0, -16 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D" index="2"]
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D" index="3"]
+position = Vector2( 40, 48 )
+shape = SubResource( 3 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" index="4"]
+polygon = PoolVector2Array( -8, -8, 8, -8, 0, -32 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D" index="5"]
+position = Vector2( 40, 48 )
+polygon = PoolVector2Array( -8, -8, 8, -8, 0, -32 )
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Area2D" index="6"]
+polygon = PoolVector2Array( -8, 0, 8, 0, 0, 16 )

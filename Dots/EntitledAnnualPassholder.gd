@@ -8,7 +8,6 @@ class_name EntitledAnnualPassholder
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("Entitled Annual Passholder")
 	ride_preference_weight = 85
 	pass # Replace with function body.
 
@@ -19,3 +18,6 @@ func _ready():
 
 func _draw():
 	draw_circle(Vector2(0,0),8,Color("b0b0b0"))
+	
+func get_class():
+	return "EntitledAnnualPassholder"

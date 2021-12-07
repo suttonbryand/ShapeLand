@@ -20,10 +20,11 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if(start_following && distance_traveled < total_length - (current_queue_size * 20)):
-		var this_distance = GlobalSettings.dot_speed * GlobalSettings.time_multiplier * delta
+		var this_distance = GlobalSettings.dot_speed * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index] * delta
 		set_offset(get_offset() + this_distance)
 		distance_traveled += this_distance
 		
 func move_in_line(amount : int):
-	print("move in line")
+	if(GlobalSettings.debug):
+		print("move in line")
 	current_queue_size -= 1 * amount

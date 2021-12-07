@@ -8,7 +8,6 @@ class_name AverageTourist
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("Average Tourist")
 	pass # Replace with function body.
 
 
@@ -24,3 +23,6 @@ func _draw():
 	draw_rect(rect,Color("b0b0b0"))
 	
 	draw_circle(Vector2(0,8),3,Color("404040"))
+	
+func get_class():
+	return "AverageTourist"

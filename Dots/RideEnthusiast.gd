@@ -8,7 +8,6 @@ class_name RideEnthusiast
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("Ride Enthusiast")
 	ride_preference_weight = 85
 	pass # Replace with function body.
 
@@ -48,3 +47,6 @@ func _draw():
 	color_array.append(Color("000000"))
 	
 	draw_polygon(vector_array,color_array)
+	
+func get_class():
+	return "RideEnthusiast"

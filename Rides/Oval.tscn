@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Rides/Ride.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Rides/Oval.gd" type="Script" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 56.4454
+height = 111.994
+
+[node name="Oval" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="." index="6"]
+visible = false
+position = Vector2( 128, 128 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+rotation = 1.56381
+shape = SubResource( 1 )

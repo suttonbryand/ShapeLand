@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Rides/Activity.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Rides/ChristmasTree/ChristmasTree.gd" type="Script" id=2]
+[ext_resource path="res://Rides/ChristmasTree/TreeLight.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Rides/ChristmasTree/LightTimer.gd" type="Script" id=4]
+
+[node name="ChristmasTree" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="." index="7"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" index="0"]
+polygon = PoolVector2Array( 128, 72, 104, 104, 152, 104 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D" index="1"]
+polygon = PoolVector2Array( 128, 88, 96, 128, 160, 128 )
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Area2D" index="2"]
+polygon = PoolVector2Array( 128, 104, 88, 152, 168, 152 )
+
+[node name="LightTimer" type="Timer" parent="." index="8"]
+wait_time = 3.0
+autostart = true
+script = ExtResource( 4 )
+
+[node name="TreeLights" type="Node2D" parent="." index="9"]
+
+[node name="TreeLight" parent="TreeLights" index="0" instance=ExtResource( 3 )]
+position = Vector2( 104, 144 )
+
+[node name="TreeLight2" parent="TreeLights" index="1" instance=ExtResource( 3 )]
+position = Vector2( 120, 144 )
+color = "00FF00"
+
+[node name="TreeLight3" parent="TreeLights" index="2" instance=ExtResource( 3 )]
+position = Vector2( 136, 144 )
+
+[node name="TreeLight4" parent="TreeLights" index="3" instance=ExtResource( 3 )]
+position = Vector2( 152, 144 )
+color = "00FF00"
+
+[node name="TreeLight5" parent="TreeLights" index="4" instance=ExtResource( 3 )]
+position = Vector2( 112, 120 )
+
+[node name="TreeLight6" parent="TreeLights" index="5" instance=ExtResource( 3 )]
+position = Vector2( 128, 120 )
+color = "00FF00"
+
+[node name="TreeLight7" parent="TreeLights" index="6" instance=ExtResource( 3 )]
+position = Vector2( 144, 120 )
+
+[node name="TreeLight8" parent="TreeLights" index="7" instance=ExtResource( 3 )]
+position = Vector2( 120, 96 )
+color = "00FF00"
+
+[node name="TreeLight9" parent="TreeLights" index="8" instance=ExtResource( 3 )]
+position = Vector2( 136, 96 )
+
+[node name="TreeLight10" parent="TreeLights" index="9" instance=ExtResource( 3 )]
+position = Vector2( 128, 72 )
+color = "fcf003"
+
+[connection signal="timeout" from="LightTimer" to="." method="_on_LightTimer_timeout"]
