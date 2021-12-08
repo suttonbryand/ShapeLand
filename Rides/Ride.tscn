@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Rides/Ride.gd" type="Script" id=1]
 [ext_resource path="res://Rides/ServiceRateTimer.gd" type="Script" id=2]
 [ext_resource path="res://Rides/ArrivalRateTimer.gd" type="Script" id=3]
 [ext_resource path="res://Rides/ReleaseQueueTimer.gd" type="Script" id=4]
 [ext_resource path="res://Rides/QueuePathFollow.gd" type="Script" id=5]
+[ext_resource path="res://Rides/GraphMenu.gd" type="Script" id=6]
+[ext_resource path="res://GUI/Graph.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Rides/FastPassKiosk.gd" type="Script" id=8]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -13,6 +16,9 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 13, 13 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 137, 137 )
 
 [node name="Ride" type="Node2D"]
 script = ExtResource( 1 )
@@ -51,11 +57,73 @@ autostart = true
 script = ExtResource( 3 )
 
 [node name="ExitPosition" type="Position2D" parent="."]
-position = Vector2( 128, 256 )
+position = Vector2( 192, 256 )
 
 [node name="EntrancePosition" type="Position2D" parent="."]
 position = Vector2( 256, 256 )
 
+[node name="RideArea" type="Area2D" parent="."]
+
+[node name="InfoButton" type="Button" parent="RideArea"]
+visible = false
+margin_left = 176.0
+margin_top = 48.0
+margin_right = 212.0
+margin_bottom = 80.0
+text = "info"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RideAreaCollision" type="CollisionShape2D" parent="RideArea"]
+position = Vector2( 127, 127 )
+shape = SubResource( 3 )
+
+[node name="GraphCanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GraphMenu" type="Node2D" parent="GraphCanvasLayer"]
+visible = false
+position = Vector2( 256, 64 )
+z_index = 1
+script = ExtResource( 6 )
+
+[node name="QueueGraph" parent="GraphCanvasLayer/GraphMenu" instance=ExtResource( 7 )]
+
+[node name="CloseQueueGraph" type="Button" parent="GraphCanvasLayer/GraphMenu"]
+margin_left = 680.0
+margin_top = 24.0
+margin_right = 727.0
+margin_bottom = 44.0
+text = "Close"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InstallFastPass" type="Button" parent="GraphCanvasLayer/GraphMenu"]
+margin_left = 304.0
+margin_top = 472.0
+margin_right = 419.0
+margin_bottom = 492.0
+text = "Install Fast Pass"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FastPassKiosk" type="Node2D" parent="."]
+visible = false
+position = Vector2( 128, 320 )
+script = ExtResource( 8 )
+
+[node name="FastPassQueue" type="Position2D" parent="."]
+position = Vector2( 64, 256 )
+
 [connection signal="timeout" from="ServiceRateTimer" to="." method="_on_ServiceRateTimer_timeout"]
 [connection signal="timeout" from="ReleaseQueueTimer" to="." method="_on_ReleaseQueueTimer_timeout"]
 [connection signal="timeout" from="ArrivalRateTimer" to="." method="_on_ArrivalRateTimer_timeout"]
+[connection signal="mouse_entered" from="RideArea" to="." method="_on_RideArea_mouse_entered"]
+[connection signal="mouse_exited" from="RideArea" to="." method="_on_RideArea_mouse_exited"]
+[connection signal="mouse_entered" from="RideArea/InfoButton" to="." method="_on_InfoButton_mouse_entered"]
+[connection signal="mouse_exited" from="RideArea/InfoButton" to="." method="_on_InfoButton_mouse_exited"]
+[connection signal="pressed" from="RideArea/InfoButton" to="." method="_on_InfoButton_pressed"]
+[connection signal="pressed" from="GraphCanvasLayer/GraphMenu/CloseQueueGraph" to="." method="_on_CloseQueueGraph_pressed"]
+[connection signal="pressed" from="GraphCanvasLayer/GraphMenu/InstallFastPass" to="." method="_on_InstallFastPass_pressed"]

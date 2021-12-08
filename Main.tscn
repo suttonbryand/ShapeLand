@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://MainCamera.gd" type="Script" id=2]
@@ -27,6 +27,7 @@
 [ext_resource path="res://GUI/Graph.tscn" type="PackedScene" id=25]
 [ext_resource path="res://GUI/GraphButton.gd" type="Script" id=26]
 [ext_resource path="res://GUI/CloseParkPrompt.gd" type="Script" id=27]
+[ext_resource path="res://TextFeed.gd" type="Script" id=28]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -45,11 +46,24 @@ autostart = true
 script = ExtResource( 7 )
 
 [node name="MainCamera" type="Camera2D" parent="."]
-position = Vector2( 643, 360 )
+position = Vector2( 640, 360 )
 current = true
 script = ExtResource( 2 )
 
 [node name="MainCameraLayer" type="CanvasLayer" parent="MainCamera"]
+
+[node name="TextFeed" type="RichTextLabel" parent="MainCamera/MainCameraLayer"]
+margin_left = 256.0
+margin_top = 16.0
+margin_right = 560.0
+margin_bottom = 64.0
+script = ExtResource( 28 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FeedPopTimer" type="Timer" parent="MainCamera/MainCameraLayer/TextFeed"]
+wait_time = 10.0
 
 [node name="TimeSection" type="Control" parent="MainCamera/MainCameraLayer"]
 margin_left = 192.0
@@ -60,49 +74,46 @@ __meta__ = {
 }
 
 [node name="ClockControl" type="Control" parent="MainCamera/MainCameraLayer/TimeSection"]
-margin_left = 560.0
+margin_left = 912.0
 margin_top = 48.0
 margin_right = 1080.0
-margin_bottom = 227.0
+margin_bottom = 112.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Clock" type="RichTextLabel" parent="MainCamera/MainCameraLayer/TimeSection/ClockControl"]
-margin_left = 216.0
-margin_top = 8.0
-margin_right = 371.0
-margin_bottom = 71.0
+margin_left = -72.0
+margin_right = 19.0
+margin_bottom = 24.0
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MoneyDisplay" type="RichTextLabel" parent="MainCamera/MainCameraLayer/TimeSection/ClockControl"]
-margin_left = 224.0
-margin_top = 32.0
-margin_right = 379.0
-margin_bottom = 95.0
+margin_left = -72.0
+margin_top = 24.0
+margin_right = 19.0
+margin_bottom = 56.0
 script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PauseButton" type="Button" parent="MainCamera/MainCameraLayer/TimeSection/ClockControl"]
-margin_left = 376.0
-margin_top = 8.0
-margin_right = 440.0
-margin_bottom = 72.0
+margin_left = 24.0
+margin_right = 88.0
+margin_bottom = 64.0
 script = ExtResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="FFButton" type="Button" parent="MainCamera/MainCameraLayer/TimeSection/ClockControl"]
-margin_left = 456.0
-margin_top = 8.0
-margin_right = 520.0
-margin_bottom = 72.0
+margin_left = 104.0
+margin_right = 168.0
+margin_bottom = 64.0
 script = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -287,7 +298,54 @@ visible = false
 position = Vector2( 256, 64 )
 script = ExtResource( 23 )
 
+[node name="AverageQueue" type="Button" parent="MainCamera/MainCameraLayer/GraphMenu"]
+margin_left = 32.0
+margin_top = 24.0
+margin_right = 178.0
+margin_bottom = 44.0
+text = "Average Queue Time"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ParkArrival" type="Button" parent="MainCamera/MainCameraLayer/GraphMenu"]
+margin_left = 200.0
+margin_top = 24.0
+margin_right = 316.0
+margin_bottom = 44.0
+text = "Park Arrival Rate"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Income" type="Button" parent="MainCamera/MainCameraLayer/GraphMenu"]
+margin_left = 336.0
+margin_top = 24.0
+margin_right = 397.0
+margin_bottom = 44.0
+text = "Income"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="QueueGraph" parent="MainCamera/MainCameraLayer/GraphMenu" instance=ExtResource( 25 )]
+visible = false
+
+[node name="IncomeGraph" parent="MainCamera/MainCameraLayer/GraphMenu" instance=ExtResource( 25 )]
+visible = false
+
+[node name="ArrivalsGraph" parent="MainCamera/MainCameraLayer/GraphMenu" instance=ExtResource( 25 )]
+visible = false
+
+[node name="CloseGraphMenu" type="Button" parent="MainCamera/MainCameraLayer/GraphMenu"]
+margin_left = 624.0
+margin_top = 24.0
+margin_right = 680.0
+margin_bottom = 48.0
+text = "Close"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CloseParkPrompt" type="Node2D" parent="MainCamera/MainCameraLayer"]
 visible = false
@@ -334,6 +392,7 @@ autostart = true
 script = ExtResource( 24 )
 
 [connection signal="timeout" from="DotSpawnTimer" to="." method="_on_DotSpawnTimer_timeout"]
+[connection signal="timeout" from="MainCamera/MainCameraLayer/TextFeed/FeedPopTimer" to="MainCamera/MainCameraLayer/TextFeed" method="_on_FeedPopTimer_timeout"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/TimeSection/ClockControl/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/TimeSection/ClockControl/FFButton" to="." method="_on_FFButton_pressed"]
 [connection signal="mouse_entered" from="MainCamera/MainCameraLayer/ButtonSelection" to="." method="_on_ButtonSelection_mouse_entered"]
@@ -381,5 +440,9 @@ script = ExtResource( 24 )
 [connection signal="mouse_exited" from="MainCamera/MainCameraLayer/ButtonSelection/SantaButton" to="." method="_on_SantaButton_mouse_exited"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/ButtonSelection/SantaButton" to="." method="_on_SantaButton_pressed"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/ButtonSelection/GraphButton" to="MainCamera/MainCameraLayer/GraphMenu" method="_on_GraphButton_pressed"]
+[connection signal="pressed" from="MainCamera/MainCameraLayer/GraphMenu/AverageQueue" to="." method="_on_AverageQueue_pressed"]
+[connection signal="pressed" from="MainCamera/MainCameraLayer/GraphMenu/ParkArrival" to="." method="_on_ParkArrival_pressed"]
+[connection signal="pressed" from="MainCamera/MainCameraLayer/GraphMenu/Income" to="." method="_on_Income_pressed"]
+[connection signal="pressed" from="MainCamera/MainCameraLayer/GraphMenu/CloseGraphMenu" to="." method="_on_CloseGraphMenu_pressed"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/CloseParkPrompt/ContinueButton" to="." method="_on_ContinueButton_pressed"]
 [connection signal="timeout" from="StatCollector" to="." method="_on_StatCollector_timeout"]

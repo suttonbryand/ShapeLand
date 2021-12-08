@@ -59,10 +59,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Dots/Dot.gd"
 }, {
+"base": "Dot",
+"class": "DotCast_The_Ride",
+"language": "GDScript",
+"path": "res://Dots/Dotcast_The_Ride.gd"
+}, {
 "base": "AbstractTimer",
 "class": "DotSpawnTimer",
 "language": "GDScript",
 "path": "res://DotSpawnTimer.gd"
+}, {
+"base": "Dot",
+"class": "Dotty_Nicholson",
+"language": "GDScript",
+"path": "res://DottyNicholson.gd"
 }, {
 "base": "Dot",
 "class": "EntitledAnnualPassholder",
@@ -89,10 +99,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/github-integration/scripts/InvitationItem.gd"
 }, {
+"base": "Dot",
+"class": "Kevin_Pointjurer",
+"language": "GDScript",
+"path": "res://KevinPointjurer.gd"
+}, {
 "base": "Ride",
 "class": "Octagon",
 "language": "GDScript",
 "path": "res://Rides/Octagon.gd"
+}, {
+"base": "Dot",
+"class": "OffDotDisney",
+"language": "GDScript",
+"path": "res://Dots/OffDotDisney.gd"
 }, {
 "base": "Ride",
 "class": "Oval",
@@ -190,13 +210,17 @@ _global_script_class_icons={
 "Circle": "",
 "ContributorClass": "",
 "Dot": "",
+"DotCast_The_Ride": "",
 "DotSpawnTimer": "",
+"Dotty_Nicholson": "",
 "EntitledAnnualPassholder": "",
 "GiftShop": "",
 "GistItem": "",
 "Hexagon": "",
 "InvitationItem": "",
+"Kevin_Pointjurer": "",
 "Octagon": "",
+"OffDotDisney": "",
 "Oval": "",
 "Pentagon": "",
 "QueuePathFollow": "",
@@ -274,6 +298,11 @@ ui_down={
 lm_click={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+rm_click={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 

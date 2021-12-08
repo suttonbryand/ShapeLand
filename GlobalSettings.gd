@@ -4,6 +4,8 @@ const dot_speed : int = 100
 const debug = false
 
 var money : int = 100000
+var income : int = 0
+var income_daily : int = 0
 
 var time_multipliers = [0,1,2,4,8]
 var time_multiplier_index = 1
@@ -25,9 +27,13 @@ var ride_center_y : int = 128
 var park_open : bool = true
 
 var day : int = 1
+var arrivals : int = 0
+var arrivals_daily : int = 0
 
 #For Statistics Tracking
 var avg_queue_times = []
+
+var text_feed = []
 
 
 # Declare member variables here. Examples:

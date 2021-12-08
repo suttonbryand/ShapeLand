@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Dots/OffDotDisney.gd" type="Script" id=1]
+[ext_resource path="res://Dots/Dot.tscn" type="PackedScene" id=2]
+
+[node name="OffDotDisney" instance=ExtResource( 2 )]
+script = ExtResource( 1 )
+
+[node name="Area2D3" type="Area2D" parent="." index="3"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D3" index="0"]
+polygon = PoolVector2Array( -8, -16, 16, 0, 16, -16, 0.00908279, -16 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D3" index="1"]
+polygon = PoolVector2Array( 0, -16, -16, 0, -16, -16 )

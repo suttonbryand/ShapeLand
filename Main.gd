@@ -10,6 +10,23 @@ var placing_ride_type
 
 var in_button_selection = false
 
+var archetypes = [
+	"RideEnthusiast", 
+	"RideFan", 
+	"AverageTourist", 
+	"ActivityFan", 
+	"AnnualPassholder",
+	"EntitledAnnualPassholder",
+	"Vlogger",
+	"SpecificVlogger" ]
+
+var specific_vloggers = [
+	"Dotty_Nicholson",
+	"Kevin_Pointjurer",
+	"Dotcast_The_Ride",
+	"OffDotDisney"
+]
+
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -27,19 +44,21 @@ func _ready():
 #	pass
 
 func create_dot():
-	var archetypes = [
-		"RideEnthusiast", 
-		"RideFan", 
-		"AverageTourist", 
-		"ActivityFan", 
-		"AnnualPassholder",
-		"EntitledAnnualPassholder",
-		"Vlogger" ]
-
+	
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	var arch_index = rng.randi_range(0,6)
-	var dot = load("res://Dots/" + archetypes[arch_index] + ".tscn").instance()
+	var arch_index = rng.randi_range(0,archetypes.size() - 1)
+	var archetype = archetypes[arch_index]
+	if(archetype == "SpecificVlogger"):
+		if(specific_vloggers.size() > 0):
+			rng.randomize()
+			var specific_vlogger_index = rng.randi_range(0,specific_vloggers.size() - 1)
+			archetype = specific_vloggers[specific_vlogger_index]
+			specific_vloggers.remove(specific_vlogger_index)
+			$MainCamera/MainCameraLayer/TextFeed.add_feed_text(archetype.replace("_"," ") + " has arrived at Shapeland.")
+		else:
+			archetype = "Vlogger"
+	var dot = load("res://Dots/" + archetype + ".tscn").instance()
 	match current_dots:
 		0:
 			dot.color = "FF0000"
@@ -50,9 +69,12 @@ func create_dot():
 		_:
 			dot.color = "FFFFFF"
 	$ParkContainer.add_child(dot)
+	dot.main_parent = $ParkContainer
 	GlobalSettings.dots.append(dot)
 	dot.position = $DotStart.position
 	current_dots += 1
+	GlobalSettings.arrivals += 1
+	GlobalSettings.arrivals_daily += 1
 
 func _process(delta):
 	
@@ -68,11 +90,15 @@ func _process(delta):
 			ride_types.ACTIVITY:
 				GlobalSettings.activities.append(placing_ride)
 		GlobalSettings.money -= placing_ride.cost
+		placing_ride.place_ride()
+		placing_ride = null
+	elif(Input.is_action_just_pressed("rm_click") && placing_ride != null):
+		placing_ride.queue_free()
 		placing_ride = null
 		
 	GlobalSettings.time += delta * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index]
 	
-	if(GlobalSettings.park_open && int(GlobalSettings.time) >= 60):
+	if(GlobalSettings.park_open && int(GlobalSettings.time) >= 540):
 		print("closing park")
 		GlobalSettings.park_open = false
 		$DotSpawnTimer.stop()
@@ -250,7 +276,9 @@ func _on_StatCollector_timeout():
 	#collect average queue times
 	var total_queue_time = 0
 	for ride in GlobalSettings.rides:
-		total_queue_time += ride.getQueueTime()
+		total_queue_time += ride.getQueueTime(true)
+	for activity in GlobalSettings.activities:
+		GlobalSettings.income_daily += activity.getIncome(true,true)
 	var avg_queue_time = 0
 	if(GlobalSettings.rides.size() > 0):
 		avg_queue_time = total_queue_time / GlobalSettings.rides.size()
@@ -258,28 +286,61 @@ func _on_StatCollector_timeout():
 	else:
 		GlobalSettings.avg_queue_times.append(0)
 		
-	#Get Time
-	#Y is avg queu time
+	#Queue Graph
 	$MainCamera/MainCameraLayer/GraphMenu/QueueGraph.max_x = 540
 	$MainCamera/MainCameraLayer/GraphMenu/QueueGraph.max_y = 180
 	$MainCamera/MainCameraLayer/GraphMenu/QueueGraph.add_plots([[int(GlobalSettings.time),avg_queue_time]])
 	$MainCamera/MainCameraLayer/GraphMenu/QueueGraph.update()
-	var aqt = "AvgQueueTimes:: "
-	for t in GlobalSettings.avg_queue_times:
-		aqt += str(t) + ".."
-	#$StatCollector.restore_full_wait_time()
 	
+	#Income Graph
+	$MainCamera/MainCameraLayer/GraphMenu/IncomeGraph.max_x = 540
+	$MainCamera/MainCameraLayer/GraphMenu/IncomeGraph.max_y = 10000
+	$MainCamera/MainCameraLayer/GraphMenu/IncomeGraph.add_plots([[int(GlobalSettings.time),GlobalSettings.income]])
+	$MainCamera/MainCameraLayer/GraphMenu/IncomeGraph.update()
+	GlobalSettings.income = 0
+	
+	#Arrivals Graph
+	$MainCamera/MainCameraLayer/GraphMenu/ArrivalsGraph.max_x = 540
+	$MainCamera/MainCameraLayer/GraphMenu/ArrivalsGraph.max_y = 100
+	$MainCamera/MainCameraLayer/GraphMenu/ArrivalsGraph.add_plots([[int(GlobalSettings.time),GlobalSettings.arrivals]])
+	$MainCamera/MainCameraLayer/GraphMenu/ArrivalsGraph.update()
+	GlobalSettings.arrivals = 0
 
 
 func _on_ContinueButton_pressed():
 	$MainCamera/MainCameraLayer/CloseParkPrompt.visible = false
+	$MainCamera/MainCameraLayer/GraphMenu/QueueGraph.clear_plots()
+	$MainCamera/MainCameraLayer/GraphMenu/IncomeGraph.clear_plots()
+	$MainCamera/MainCameraLayer/GraphMenu/ArrivalsGraph.clear_plots()
 	GlobalSettings.time = 0.00
 	GlobalSettings.day += 1
+	GlobalSettings.arrivals_daily = 0
+	GlobalSettings.income_daily = 0
 	current_dots = 0
 	GlobalSettings.park_open = true
 	$DotSpawnTimer.start()
 	$StatCollector.start()
 	for r in GlobalSettings.rides:
 		r.openRide()
+		r.clearQueueTimes()
 	for a in GlobalSettings.activities:
 		a.openRide()
+
+
+func _on_AverageQueue_pressed():
+	$MainCamera/MainCameraLayer/GraphMenu/QueueGraph.visible = true
+	$MainCamera/MainCameraLayer/GraphMenu/IncomeGraph.visible = false
+	$MainCamera/MainCameraLayer/GraphMenu/ArrivalsGraph.visible = false
+
+func _on_Income_pressed():
+	$MainCamera/MainCameraLayer/GraphMenu/QueueGraph.visible = false
+	$MainCamera/MainCameraLayer/GraphMenu/IncomeGraph.visible = true
+	$MainCamera/MainCameraLayer/GraphMenu/ArrivalsGraph.visible = false
+	
+func _on_ParkArrival_pressed():
+	$MainCamera/MainCameraLayer/GraphMenu/QueueGraph.visible = false
+	$MainCamera/MainCameraLayer/GraphMenu/IncomeGraph.visible = false
+	$MainCamera/MainCameraLayer/GraphMenu/ArrivalsGraph.visible = true
+
+func _on_CloseGraphMenu_pressed():
+	$MainCamera/MainCameraLayer/GraphMenu.visible = false

@@ -43,6 +43,10 @@ func draw_graph():
 # plots_add = [ [x value, y value],...]
 func add_plots(plots_add):
 	plots += plots_add
+	
+func clear_plots():
+	plots = []
+	update()
 
 func _draw():
 	draw_line(Vector2(64,64),Vector2(64,448),Color("FFFFFF"),8)

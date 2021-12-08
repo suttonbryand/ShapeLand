@@ -9,7 +9,8 @@ var wait_time_real = wait_time
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	start(wait_time / GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index])
+	if(GlobalSettings.time_multiplier_index != 0):
+		start(wait_time / GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index])
 
 func _process(delta):
 	pass
@@ -33,4 +34,3 @@ func update_wait_time():
 			/ GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index])
 		wait_time = ((wait_time_old * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index - 1]) 
 			/ GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index])
-
