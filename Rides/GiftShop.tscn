@@ -8,3 +8,9 @@ script = ExtResource( 2 )
 
 [node name="Area2D" parent="QueuePath" index="1"]
 position = Vector2( 0, 128 )
+
+[node name="ServiceRateTimer" parent="." index="1"]
+wait_time = 10.0
+
+[node name="FastPassKiosk" parent="." index="9"]
+position = Vector2( 128, 320 )

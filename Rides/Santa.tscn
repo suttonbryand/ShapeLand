@@ -14,6 +14,9 @@ extents = Vector2( 26.5, 26.5 )
 [node name="Santa" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="ServiceRateTimer" parent="." index="1"]
+wait_time = 10.0
+
 [node name="Area2D" type="Area2D" parent="." index="7"]
 position = Vector2( 128, 128 )
 
@@ -41,3 +44,6 @@ polygon = PoolVector2Array( -8, -8, 8, -8, 0, -32 )
 
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Area2D" index="6"]
 polygon = PoolVector2Array( -8, 0, 8, 0, 0, 16 )
+
+[node name="FastPassKiosk" parent="." index="10"]
+position = Vector2( 128, 320 )

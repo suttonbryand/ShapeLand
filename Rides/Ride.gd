@@ -52,18 +52,21 @@ func addToFastPassQueue(dot):
 	
 func startRiding():
 	pullFromQueue(fast_pass_queue, int(capacity / 2))
-	pullFromQueue()
+	var pulled_from_queue : int = pullFromQueue()
 		
 	for waiter in queue:
-		waiter.move_in_line(riding.size())
+		waiter.move_in_line(pulled_from_queue)
 		
 func pullFromQueue(queue_arg = queue, capacity_arg = capacity):
+	var pulled : int = 0
 	while(queue_arg.size() > 0 && riding.size() < capacity_arg):
 		var dot = queue_arg.pop_front()
 		dot.hide()
 		dot.state = dot.States.RIDING
 		riding.append(dot)
+		pulled += 1
 		#$ServiceRateTimer.wait_time = 4096	
+	return pulled
 		
 func releaseRiders():
 	while (riding.size() > 0):

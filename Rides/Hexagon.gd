@@ -9,16 +9,16 @@ class_name Hexagon
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	popularity = 35
+	popularity = 30
 	
 func _draw():
 	var vector_array : PoolVector2Array = PoolVector2Array()
-	vector_array.append(Vector2(128,32))
-	vector_array.append(Vector2(256,88))
-	vector_array.append(Vector2(256,192))
-	vector_array.append(Vector2(128,248))
-	vector_array.append(Vector2(0,192))
-	vector_array.append(Vector2(9,88))
+	vector_array.append(Vector2(64,0))
+	vector_array.append(Vector2(192,0))
+	vector_array.append(Vector2(256,128))
+	vector_array.append(Vector2(192,256))
+	vector_array.append(Vector2(64,256))
+	vector_array.append(Vector2(0,128))
 	
 	var color_array : PoolColorArray = PoolColorArray()
 	color_array.append(Color("FFFFFF"))

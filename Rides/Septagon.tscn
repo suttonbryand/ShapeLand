@@ -5,3 +5,9 @@
 
 [node name="Septagon" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="." index="10"]
+position = Vector2( 0, 24 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" index="0"]
+polygon = PoolVector2Array( 8, 112, 40, 40, 128, 8, 216, 40, 248, 112, 192, 184, 64, 184 )

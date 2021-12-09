@@ -1,13 +1,14 @@
 extends Node2D
 class_name Dot
 
-enum States {PAUSED, ENTERING_PARK, CHOOSING_RIDE, MOVING_TO_RIDE, 
+enum States {PAUSED, ENTERING_PARK, CHOOSING_RIDE, MOVING_TO_RIDE, MOVING_TO_RIDE_NO_FP,
 GOING_TO_HUB, IN_QUEUE, RIDING, LEAVING_RIDE, LEAVING_PARK, GOING_TO_FASTPASS, REDEEMING_FASTPASS}
 var state = States.PAUSED
 var destination_attraction
 var main_parent
 var color : String = "FFFFFF"
 var balking_point  : int = 120
+var fast_pass_check_point : int = 30
 
 export var ride_preference_weight = 50
 export var stay_length = 420
@@ -94,26 +95,34 @@ func _process(delta):
 				else:
 					state = States.MOVING_TO_RIDE
 
-		States.MOVING_TO_RIDE:
+		States.MOVING_TO_RIDE, States.MOVING_TO_RIDE_NO_FP:
 			if(!GlobalSettings.park_open || end_of_stay()):
 				state = States.LEAVING_PARK
 			else:
 				var ride_enter = destination_attraction.get_node("EntrancePosition").global_position
 				position = position.move_toward(ride_enter, delta * 100 * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index])
 				if(position.x == ride_enter.x && position.y == ride_enter.y):
-					if(destination_attraction.getQueueTime() >= balking_point && destination_attraction.fast_pass_installed && fast_pass_ride == null):
-						state = States.GOING_TO_FASTPASS
-					elif(destination_attraction.getQueueTime() >= balking_point && (!destination_attraction.fast_pass_installed || fast_pass_ride != null)):
-						state = States.GOING_TO_HUB
-					else:
-						state = States.IN_QUEUE
-						destination_attraction.addToQueue(self)
+					if(state == States.MOVING_TO_RIDE):
+						if(destination_attraction.getQueueTime() >= fast_pass_check_point &&
+						destination_attraction.fast_pass_installed && fast_pass_ride == null):
+							state = States.GOING_TO_FASTPASS
+						elif(destination_attraction.getQueueTime() >= balking_point):
+							state = States.GOING_TO_HUB
+						else:
+							state = States.IN_QUEUE
+							destination_attraction.addToQueue(self)
+					elif(state == States.MOVING_TO_RIDE_NO_FP):
+						if(destination_attraction.getQueueTime() >= balking_point):
+							state = States.GOING_TO_HUB
+						else:
+							state = States.IN_QUEUE
+							destination_attraction.addToQueue(self)
+							
 		States.GOING_TO_FASTPASS:
 			var fp_location = destination_attraction.getFastPassKioskGlobalPosition()
 			position = position.move_toward(fp_location, delta * 100 * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index])
 			if(position.x == fp_location.x && position.y == fp_location.y):
-				look_for_fast_pass(destination_attraction)
-				state = States.GOING_TO_HUB
+				state = States.GOING_TO_HUB if look_for_fast_pass(destination_attraction) else States.MOVING_TO_RIDE_NO_FP
 		States.REDEEMING_FASTPASS:
 			var fpq_location = fast_pass_ride.getFastPassQueueGlobalPosition()
 			position = position.move_toward(fpq_location, delta * 100 * GlobalSettings.time_multipliers[GlobalSettings.time_multiplier_index])

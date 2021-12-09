@@ -26,7 +26,7 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if(event.is_pressed()):
 			if(event.button_index == BUTTON_WHEEL_UP):
-				if(zoom > zoom_min):
+				if((zoom - zoom_speed) > zoom_min):
 					zoom -= zoom_speed
 			if(event.button_index == BUTTON_WHEEL_DOWN):
 				if(zoom < zoom_max):

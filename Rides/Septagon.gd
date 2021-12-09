@@ -8,7 +8,7 @@ class_name Septagon
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	popularity = 35
+	popularity = 30
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -17,13 +17,13 @@ func _ready():
 
 func _draw():
 	var vector_array : PoolVector2Array = PoolVector2Array()
-	vector_array.append(Vector2(128,0))
-	vector_array.append(Vector2(256,96))
-	vector_array.append(Vector2(256,168))
-	vector_array.append(Vector2(192,230))
-	vector_array.append(Vector2(64,230))
-	vector_array.append(Vector2(0,168))
-	vector_array.append(Vector2(0,96))
+	vector_array.append(Vector2(128,32))
+	vector_array.append(Vector2(216,64))
+	vector_array.append(Vector2(248,136))
+	vector_array.append(Vector2(192,208))
+	vector_array.append(Vector2(64,208))
+	vector_array.append(Vector2(8,136))
+	vector_array.append(Vector2(40,64))
 	
 	var color_array : PoolColorArray = PoolColorArray()
 	color_array.append(Color("FFFFFF"))

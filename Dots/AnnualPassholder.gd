@@ -8,7 +8,9 @@ class_name AnnualPassholder
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	ride_preference_weight = 65
+	ride_preference_weight = 50
+	stay_length = 420
+	balking_point = 30
 	pass # Replace with function body.
 
 

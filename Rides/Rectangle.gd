@@ -8,7 +8,7 @@ class_name Rectangle
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	popularity = 35
+	popularity = 10
 	pass # Replace with function body.
 
 

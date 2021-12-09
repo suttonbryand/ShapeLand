@@ -1,7 +1,7 @@
 extends Ride
 class_name Activity
 
-export var charge : int = 100
+export var charge : int = 5
 
 var income : int = 0
 

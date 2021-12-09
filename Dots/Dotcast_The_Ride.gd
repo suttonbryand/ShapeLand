@@ -9,6 +9,9 @@ class_name DotCast_The_Ride
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	ride_preference_weight = 65
+	stay_length = 540
+	balking_point = 15
+	fast_pass_check_point = 15
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

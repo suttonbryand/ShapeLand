@@ -5,3 +5,12 @@
 
 [node name="Hexagon" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="." index="10"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" index="0"]
+visible = false
+polygon = PoolVector2Array( 72, 0, 184, 0, 256, 88, 256, 176, 184, 256, 72, 256, 0, 176, 0, 88 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Area2D" index="1"]
+polygon = PoolVector2Array( 0, 128, 64, 0, 192, 0, 256, 128, 192, 256, 64, 256 )

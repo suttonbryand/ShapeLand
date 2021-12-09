@@ -9,6 +9,8 @@ class_name RideEnthusiast
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	ride_preference_weight = 85
+	stay_length = 540
+	balking_point = 240
 	pass # Replace with function body.
 
 

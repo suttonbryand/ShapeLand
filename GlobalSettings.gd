@@ -3,7 +3,7 @@ extends Node
 const dot_speed : int = 100
 const debug = false
 
-var money : int = 100000
+var money : int = 200
 var income : int = 0
 var income_daily : int = 0
 
@@ -34,6 +34,23 @@ var arrivals_daily : int = 0
 var avg_queue_times = []
 
 var text_feed = []
+
+var ride_prices = {
+	"Octagon" : 100,
+	"Rectangle" : 100,
+	"Oval" : 150,
+	"Trapezoid" : 150,
+	"Septagon" : 150,
+	"Hexagon" : 250,
+	"Circle" : 250,
+	"Square" : 250,
+	"Pentagon" : 500,
+	"Triangle" : 1000,
+	"ChristmasTree" : 50,
+	"Restaurant" : 50,
+	"Santa" : 50,
+	"GiftShop" : 50
+}
 
 
 # Declare member variables here. Examples:

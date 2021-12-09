@@ -8,7 +8,9 @@ class_name AverageTourist
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	ride_preference_weight = 50
+	stay_length = 420
+	balking_point = 120
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

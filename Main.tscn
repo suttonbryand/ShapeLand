@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://MainCamera.gd" type="Script" id=2]
@@ -28,6 +28,18 @@
 [ext_resource path="res://GUI/GraphButton.gd" type="Script" id=26]
 [ext_resource path="res://GUI/CloseParkPrompt.gd" type="Script" id=27]
 [ext_resource path="res://TextFeed.gd" type="Script" id=28]
+[ext_resource path="res://Fonts/ReadexPro-Bold.ttf" type="DynamicFontData" id=29]
+[ext_resource path="res://HelpMenu.gd" type="Script" id=30]
+[ext_resource path="res://Assets/twitter.png" type="Texture" id=31]
+[ext_resource path="res://Assets/github.png" type="Texture" id=32]
+[ext_resource path="res://Assets/dotmusic.ogg" type="AudioStream" id=33]
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 29 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 66
+font_data = ExtResource( 29 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -35,28 +47,28 @@ script = ExtResource( 1 )
 [node name="ParkContainer" type="Node2D" parent="."]
 
 [node name="DotStart" type="Position2D" parent="."]
-position = Vector2( 640, 650 )
+position = Vector2( 896, 1024 )
 
 [node name="ParkEntered" type="Position2D" parent="."]
-position = Vector2( 640, 350 )
+position = Vector2( 896, 448 )
 
 [node name="DotSpawnTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 10.0
 autostart = true
 script = ExtResource( 7 )
 
 [node name="MainCamera" type="Camera2D" parent="."]
-position = Vector2( 640, 360 )
+position = Vector2( 960, 544 )
 current = true
 script = ExtResource( 2 )
 
 [node name="MainCameraLayer" type="CanvasLayer" parent="MainCamera"]
 
 [node name="TextFeed" type="RichTextLabel" parent="MainCamera/MainCameraLayer"]
-margin_left = 256.0
-margin_top = 16.0
-margin_right = 560.0
-margin_bottom = 64.0
+margin_left = 32.0
+margin_top = 24.0
+margin_right = 336.0
+margin_bottom = 72.0
 script = ExtResource( 28 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -66,9 +78,10 @@ __meta__ = {
 wait_time = 10.0
 
 [node name="TimeSection" type="Control" parent="MainCamera/MainCameraLayer"]
-margin_left = 192.0
-margin_top = -40.0
-margin_right = 232.0
+margin_left = 816.0
+margin_top = -24.0
+margin_right = 856.0
+margin_bottom = 16.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -78,6 +91,7 @@ margin_left = 912.0
 margin_top = 48.0
 margin_right = 1080.0
 margin_bottom = 112.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -101,6 +115,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DotCountDisplays" type="RichTextLabel" parent="MainCamera/MainCameraLayer/TimeSection/ClockControl"]
+margin_left = -72.0
+margin_top = 64.0
+margin_right = 32.0
+margin_bottom = 104.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="PauseButton" type="Button" parent="MainCamera/MainCameraLayer/TimeSection/ClockControl"]
 margin_left = 24.0
 margin_right = 88.0
@@ -120,26 +143,46 @@ __meta__ = {
 }
 
 [node name="ButtonSelection" type="Control" parent="MainCamera/MainCameraLayer"]
-margin_left = -2.0
-margin_top = -3.0
-margin_right = 162.0
-margin_bottom = 715.0
+margin_left = 88.0
+margin_top = 144.0
+margin_right = 252.0
+margin_bottom = 862.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SquareButton" parent="MainCamera/MainCameraLayer/ButtonSelection" instance=ExtResource( 3 )]
 margin_left = 10.0
-margin_top = 67.0
+margin_top = 307.0
 margin_right = 74.0
-margin_bottom = 131.0
+margin_bottom = 371.0
+
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/SquareButton"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 56.0
+margin_bottom = 64.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CircleButton" parent="MainCamera/MainCameraLayer/ButtonSelection" instance=ExtResource( 3 )]
 margin_left = 90.0
-margin_top = 67.0
+margin_top = 307.0
 margin_right = 154.0
-margin_bottom = 131.0
+margin_bottom = 371.0
 script = ExtResource( 4 )
+
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/CircleButton"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 56.0
+margin_bottom = 64.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="GiftShopButton" parent="MainCamera/MainCameraLayer/ButtonSelection" instance=ExtResource( 3 )]
 margin_left = 10.0
@@ -148,22 +191,52 @@ margin_right = 74.0
 margin_bottom = 531.0
 script = ExtResource( 5 )
 
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/GiftShopButton"]
+margin_left = 8.0
+margin_top = 16.0
+margin_right = 48.0
+margin_bottom = 56.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="TriangleButton" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
-margin_left = 10.0
-margin_top = 147.0
-margin_right = 74.0
-margin_bottom = 211.0
+margin_left = 90.0
+margin_top = 387.0
+margin_right = 154.0
+margin_bottom = 451.0
 script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/TriangleButton"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 56.0
+margin_bottom = 64.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="PentagonButton" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
-margin_left = 90.0
-margin_top = 147.0
-margin_right = 154.0
-margin_bottom = 211.0
+margin_left = 10.0
+margin_top = 387.0
+margin_right = 74.0
+margin_bottom = 451.0
 script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/PentagonButton"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 56.0
+margin_bottom = 64.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -178,6 +251,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/HexagonButton"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 56.0
+margin_bottom = 64.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="SeptagonButton" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
 margin_left = 90.0
 margin_top = 227.0
@@ -188,42 +271,92 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/SeptagonButton"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 56.0
+margin_bottom = 64.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="TrapezoidButton" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
 margin_left = 10.0
-margin_top = 307.0
+margin_top = 147.0
 margin_right = 74.0
-margin_bottom = 371.0
+margin_bottom = 211.0
 script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/TrapezoidButton"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 56.0
+margin_bottom = 56.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OvalButton" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
 margin_left = 90.0
-margin_top = 307.0
+margin_top = 147.0
 margin_right = 154.0
-margin_bottom = 371.0
+margin_bottom = 211.0
 script = ExtResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RectangleButtons" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/OvalButton"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 56.0
+margin_bottom = 64.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RectangleButton" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
 margin_left = 10.0
-margin_top = 387.0
+margin_top = 67.0
 margin_right = 74.0
-margin_bottom = 451.0
+margin_bottom = 131.0
 script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/RectangleButton"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 56.0
+margin_bottom = 64.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OctagonButton" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
 margin_left = 90.0
-margin_top = 387.0
+margin_top = 67.0
 margin_right = 154.0
-margin_bottom = 451.0
+margin_bottom = 131.0
 script = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/OctagonButton"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 56.0
+margin_bottom = 64.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -257,12 +390,32 @@ polygon = PoolVector2Array( 0, -8, -24, 16, 24, 16 )
 position = Vector2( 0, 8 )
 polygon = PoolVector2Array( 0, 8, -32, 32, 32, 32 )
 
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/ChristmasTreeButton"]
+margin_left = 16.0
+margin_top = 40.0
+margin_right = 56.0
+margin_bottom = 80.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RestaurantButton" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
 margin_left = 90.0
 margin_top = 467.0
 margin_right = 154.0
 margin_bottom = 531.0
 script = ExtResource( 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/RestaurantButton"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 48.0
+margin_bottom = 48.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -277,6 +430,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PriceLabel" type="RichTextLabel" parent="MainCamera/MainCameraLayer/ButtonSelection/SantaButton"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 56.0
+margin_bottom = 64.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="GraphButton" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
 margin_left = 10.0
 margin_top = 627.0
@@ -287,11 +450,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
+[node name="HelpButton" type="Button" parent="MainCamera/MainCameraLayer/ButtonSelection"]
 margin_left = 90.0
 margin_top = 627.0
 margin_right = 154.0
 margin_bottom = 691.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="questionmark" type="Label" parent="MainCamera/MainCameraLayer/ButtonSelection/HelpButton"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 48.0
+margin_bottom = 41.0
+custom_fonts/font = SubResource( 2 )
+text = "?"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="GraphMenu" type="Node2D" parent="MainCamera/MainCameraLayer"]
 visible = false
@@ -356,12 +534,20 @@ script = ExtResource( 27 )
 margin_left = 72.0
 margin_top = 48.0
 margin_right = 432.0
-margin_bottom = 176.0
+margin_bottom = 80.0
 tab_size = 11
-text = "Congratulations!"
+text = "Congratulations on completing a day!
+
+"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TodaysIncome" type="RichTextLabel" parent="MainCamera/MainCameraLayer/CloseParkPrompt"]
+margin_left = 72.0
+margin_top = 80.0
+margin_right = 304.0
+margin_bottom = 152.0
 
 [node name="ContinueButton" type="Button" parent="MainCamera/MainCameraLayer/CloseParkPrompt"]
 margin_left = 120.0
@@ -373,8 +559,101 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="HelpMenu" type="Node2D" parent="MainCamera/MainCameraLayer"]
+position = Vector2( 624, 88 )
+script = ExtResource( 30 )
+
+[node name="TitleLabel" type="Label" parent="MainCamera/MainCameraLayer/HelpMenu"]
+margin_left = 152.0
+margin_top = 40.0
+margin_right = 525.0
+margin_bottom = 124.0
+custom_fonts/font = SubResource( 1 )
+text = "ShapeLand"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VersionLabel" type="Label" parent="MainCamera/MainCameraLayer/HelpMenu"]
+margin_left = 144.0
+margin_top = 120.0
+margin_right = 536.0
+margin_bottom = 738.0
+custom_fonts/font = SubResource( 2 )
+text = "version 0.0.1
+Created by Bryan Sutton
+
+             @derrigible
+			
+			Source code available on Github
+			
+			                   suttonbryand
+							
+							Concept and Music from
+							Defunctland:
+							 Disney's FastPass: A Complicated History
+							By Kevin Perjurer
+							
+							How to Play:
+							W,A,S,D to navigate
+							Mouse Scroll to zoom
+							
+							Placing rides will bring more guests.
+							Placing activities will earn more income.
+							(Activities are any item on the menu
+							that aren't a shape)
+							Click the \"info\" button on any ride to display
+							the ride's queue graph
+							There will also be an option to install fast pass
+							
+							Press the ? Button to return to this menu"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OkButton" type="Button" parent="MainCamera/MainCameraLayer/HelpMenu"]
+margin_left = 224.0
+margin_top = 768.0
+margin_right = 254.0
+margin_bottom = 788.0
+text = "Ok"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="twitter" type="Sprite" parent="MainCamera/MainCameraLayer/HelpMenu"]
+position = Vector2( 288, 200 )
+scale = Vector2( 0.0393655, 0.0393655 )
+texture = ExtResource( 31 )
+
+[node name="github" type="Sprite" parent="MainCamera/MainCameraLayer/HelpMenu"]
+position = Vector2( 296, 288 )
+scale = Vector2( 0.625, 0.625 )
+texture = ExtResource( 32 )
+
+[node name="QuitButton" type="Button" parent="MainCamera/MainCameraLayer/HelpMenu"]
+margin_left = 384.0
+margin_top = 768.0
+margin_right = 466.0
+margin_bottom = 788.0
+text = "Quit Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MuteMusic" type="Button" parent="MainCamera/MainCameraLayer/HelpMenu"]
+margin_left = 272.0
+margin_top = 768.0
+margin_right = 367.0
+margin_bottom = 788.0
+text = "Toggle Music"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ParkEntrance" type="Node2D" parent="."]
-position = Vector2( 640, 576 )
+position = Vector2( 896, 768 )
 script = ExtResource( 22 )
 
 [node name="ParkLabel" type="RichTextLabel" parent="ParkEntrance"]
@@ -390,6 +669,14 @@ __meta__ = {
 wait_time = 30.0
 autostart = true
 script = ExtResource( 24 )
+
+[node name="ParkEntranceQueueTimer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 33 )
+autoplay = true
 
 [connection signal="timeout" from="DotSpawnTimer" to="." method="_on_DotSpawnTimer_timeout"]
 [connection signal="timeout" from="MainCamera/MainCameraLayer/TextFeed/FeedPopTimer" to="MainCamera/MainCameraLayer/TextFeed" method="_on_FeedPopTimer_timeout"]
@@ -424,9 +711,9 @@ script = ExtResource( 24 )
 [connection signal="mouse_entered" from="MainCamera/MainCameraLayer/ButtonSelection/OvalButton" to="." method="_on_OvalButton_mouse_entered"]
 [connection signal="mouse_exited" from="MainCamera/MainCameraLayer/ButtonSelection/OvalButton" to="." method="_on_OvalButton_mouse_exited"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/ButtonSelection/OvalButton" to="." method="_on_OvalButton_pressed"]
-[connection signal="mouse_entered" from="MainCamera/MainCameraLayer/ButtonSelection/RectangleButtons" to="." method="_on_RectangleButtons_mouse_entered"]
-[connection signal="mouse_exited" from="MainCamera/MainCameraLayer/ButtonSelection/RectangleButtons" to="." method="_on_RectangleButtons_mouse_exited"]
-[connection signal="pressed" from="MainCamera/MainCameraLayer/ButtonSelection/RectangleButtons" to="." method="_on_RectangleButtons_pressed"]
+[connection signal="mouse_entered" from="MainCamera/MainCameraLayer/ButtonSelection/RectangleButton" to="." method="_on_RectangleButtons_mouse_entered"]
+[connection signal="mouse_exited" from="MainCamera/MainCameraLayer/ButtonSelection/RectangleButton" to="." method="_on_RectangleButtons_mouse_exited"]
+[connection signal="pressed" from="MainCamera/MainCameraLayer/ButtonSelection/RectangleButton" to="." method="_on_RectangleButtons_pressed"]
 [connection signal="mouse_entered" from="MainCamera/MainCameraLayer/ButtonSelection/OctagonButton" to="." method="_on_OctagonButton_mouse_entered"]
 [connection signal="mouse_exited" from="MainCamera/MainCameraLayer/ButtonSelection/OctagonButton" to="." method="_on_OctagonButton_mouse_exited"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/ButtonSelection/OctagonButton" to="." method="_on_OctagonButton_pressed"]
@@ -440,9 +727,14 @@ script = ExtResource( 24 )
 [connection signal="mouse_exited" from="MainCamera/MainCameraLayer/ButtonSelection/SantaButton" to="." method="_on_SantaButton_mouse_exited"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/ButtonSelection/SantaButton" to="." method="_on_SantaButton_pressed"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/ButtonSelection/GraphButton" to="MainCamera/MainCameraLayer/GraphMenu" method="_on_GraphButton_pressed"]
+[connection signal="pressed" from="MainCamera/MainCameraLayer/ButtonSelection/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/GraphMenu/AverageQueue" to="." method="_on_AverageQueue_pressed"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/GraphMenu/ParkArrival" to="." method="_on_ParkArrival_pressed"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/GraphMenu/Income" to="." method="_on_Income_pressed"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/GraphMenu/CloseGraphMenu" to="." method="_on_CloseGraphMenu_pressed"]
 [connection signal="pressed" from="MainCamera/MainCameraLayer/CloseParkPrompt/ContinueButton" to="." method="_on_ContinueButton_pressed"]
+[connection signal="pressed" from="MainCamera/MainCameraLayer/HelpMenu/OkButton" to="." method="_on_OkButton_pressed"]
+[connection signal="pressed" from="MainCamera/MainCameraLayer/HelpMenu/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="MainCamera/MainCameraLayer/HelpMenu/MuteMusic" to="." method="_on_MuteMusic_pressed"]
 [connection signal="timeout" from="StatCollector" to="." method="_on_StatCollector_timeout"]
+[connection signal="timeout" from="ParkEntranceQueueTimer" to="." method="_on_ParkEntranceQueueTimer_timeout"]
